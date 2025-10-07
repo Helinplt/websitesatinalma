@@ -1,0 +1,1803 @@
+﻿<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="tr">
+    <head runat="server">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+        <title>Müşteri Girişi</title>
+
+        <style>
+            :root {
+                --mor: #7c4dff;
+                --pembe: #ff6ec7;
+                --mavi: #5ec5ff;
+                --lacivert: #0c1b4d;
+                --gece: #0b1020;
+                --acik: #f7f9fc;
+                --beyaz: #fff;
+                --metin: #e8ecf7;
+                --metin2: rgba(232,236,247,.85);
+                --card: rgba(255,255,255,.06);
+                --card2: rgba(255,255,255,.03);
+                --border: rgba(255,255,255,.16);
+                --shadow: 0 20px 60px rgba(12,27,77,.38);
+                --radius: 18px;
+                --radius-lg: 22px;
+                --grad-arka: radial-gradient(1100px 520px at 8% -10%, rgba(124,77,255,.22), transparent 60%), radial-gradient(900px 420px at 92% -20%, rgba(255,110,199,.18), transparent 90%), linear-gradient(180deg, #0a0f2a 0%, #0c1334 80%, #101944 100%);
+                --grad-cta: linear-gradient(135deg, var(--pembe), var(--mor));
+            }
+
+            @media (prefers-color-scheme: light) {
+                :root {
+                    --gece: #f5f7ff;
+                    --metin: #0c1b4d;
+                    --metin2: rgba(12,27,77,.75);
+                    --card: rgba(12,27,77,.06);
+                    --card2: rgba(12,27,77,.03);
+                    --border: rgba(12,27,77,.12);
+                    --grad-arka: radial-gradient(900px 420px at 8% -10%, rgba(124,77,255,.10), transparent 60%), radial-gradient(900px 420px at 92% -20%, rgba(255,110,199,.10), transparent 60%), linear-gradient(180deg, #f6f9ff 0%, #ffffff 60%, #ffffff 100%);
+                }
+            }
+
+            * {
+                box-sizing: border-box
+            }
+
+            html, body {
+                height: 100%
+            }
+
+            html {
+                scroll-behavior: smooth
+            }
+
+            body {
+                margin: 0;
+                font-family: 'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+                color: var(--metin);
+                background: var(--gece);
+                background-image: var(--grad-arka);
+                overflow-x: hidden;
+            }
+
+            /* Header ile arasında nefes alan hero */
+            .auth-hero {
+                padding: 46px 0 12px;
+                text-align: center
+            }
+
+                .auth-hero h1 {
+                    margin: 0;
+                    font-size: 40px;
+                    letter-spacing: .2px;
+                    font-weight: 700
+                }
+
+                .auth-hero p {
+                    margin: 8px 0 0;
+                    opacity: .9
+                }
+
+            /* Merkez kart */
+            .container {
+                max-width: 1120px;
+                margin: 0 auto;
+                padding: 0 22px
+            }
+
+            .auth-wrap {
+                display: grid;
+                grid-template-columns: 1.1fr .9fr;
+                gap: 24px;
+                align-items: stretch;
+                margin: 24px 0 70px;
+            }
+
+            @media (max-width:992px) {
+                .auth-wrap {
+                    grid-template-columns: 1fr
+                }
+            }
+
+            .card {
+                background: linear-gradient(to bottom right, var(--card), var(--card2));
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow);
+                backdrop-filter: blur(8px);
+            }
+
+            /* Sol sütun: görsel / mesaj */
+            /* Yeni varyasyon v2 */
+            .side-visual.v2 {
+                padding: 26px;
+                gap: 14px;
+                display: flex;
+                flex-direction: column
+            }
+
+                .side-visual.v2 .sv-head h2 {
+                    font-size: 28px;
+                    margin: 12px 0 6px
+                }
+
+                .side-visual.v2 .sv-head p {
+                    opacity: .95;
+                    line-height: 1.75;
+                    margin: 0
+                }
+
+            .sv-list {
+                list-style: none;
+                padding: 0;
+                margin: 6px 0 0;
+                display: grid;
+                gap: 8px
+            }
+
+                .sv-list li {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    opacity: .95
+                }
+
+                .sv-list i {
+                    color: var(--mavi)
+                }
+
+            .sv-safe {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-top: 10px
+            }
+
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 600;
+                font-size: 12px;
+                padding: 8px 10px;
+                border-radius: 999px;
+                background: var(--card);
+                border: 1px solid var(--border);
+            }
+
+            /* İllüstrasyon alanını zenginleştir */
+            .side-visual.v2 .illus {
+                position: relative;
+                margin-top: 12px;
+                border-radius: 16px;
+                border: 1px solid var(--border);
+                min-height: 220px;
+                overflow: hidden;
+                background: radial-gradient(500px 260px at 10% 0%, rgba(124,77,255,.35), transparent 60%), radial-gradient(460px 260px at 90% 20%, rgba(94,197,255,.25), transparent 60%), linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+            }
+
+            /* Hareketli renk bulutları */
+            .blob {
+                position: absolute;
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                filter: blur(22px);
+                opacity: .55;
+                mix-blend-mode: screen;
+                background: var(--grad-cta);
+                animation: floatBlob 9s ease-in-out infinite;
+            }
+
+            .blob-a {
+                left: -30px;
+                top: -20px
+            }
+
+            .blob-b {
+                right: -25px;
+                bottom: -25px;
+                animation-direction: reverse;
+                animation-duration: 11s
+            }
+
+            @keyframes floatBlob {
+                0%,100% {
+                    transform: translate(0,0) scale(1)
+                }
+
+                50% {
+                    transform: translate(12px, -10px) scale(1.08)
+                }
+            }
+
+            /* İnce grid overlay */
+            .grid-overlay {
+                position: absolute;
+                inset: 0;
+                opacity: .45;
+                pointer-events: none;
+                background: repeating-linear-gradient(to right, rgba(255,255,255,.06) 0 1px, transparent 1px 18px), repeating-linear-gradient(to bottom, rgba(255,255,255,.05) 0 1px, transparent 1px 18px);
+                mix-blend-mode: overlay;
+            }
+
+            /* Var olan .tag ile uyum */
+            .side-visual.v2 .tag {
+                align-self: flex-start;
+                background: rgba(255,255,255,.08);
+                border: 1px dashed var(--border);
+            }
+
+            /* Mobil dokunuşlar */
+            @media (max-width:768px) {
+                .side-visual.v2 {
+                    padding: 20px
+                }
+
+                    .side-visual.v2 .sv-head h2 {
+                        font-size: 24px
+                    }
+
+                    .side-visual.v2 .illus {
+                        min-height: 180px
+                    }
+            }
+
+            /* Sağ sütun: form */
+            .form-pane {
+                padding: 26px
+            }
+
+            .tabs {
+                display: flex;
+                gap: 10px;
+                padding: 6px;
+                border-radius: 14px;
+                background: rgba(255,255,255,.06);
+                border: 1px solid var(--border);
+                width: fit-content;
+                margin: 0 auto 14px;
+            }
+
+            .tab-btn {
+                appearance: none;
+                border: 0;
+                padding: 10px 14px;
+                border-radius: 12px;
+                cursor: pointer;
+                font-weight: 700;
+                color: var(--metin2);
+                background: transparent;
+                transition: all .15s ease;
+            }
+
+                .tab-btn.active {
+                    color: #fff;
+                    background: var(--grad-cta);
+                    box-shadow: 0 10px 22px rgba(124,77,255,.36)
+                }
+
+            .form-title {
+                text-align: center;
+                margin: 6px 0 18px;
+                font-size: 22px;
+                font-weight: 700
+            }
+
+            .form-grid {
+                display: grid;
+                gap: 14px
+            }
+
+            .field {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .label {
+                font-size: 13px;
+                opacity: .9;
+                display: flex;
+                align-items: center;
+                gap: 8px
+            }
+
+            .input {
+                width: 100%;
+                padding: 12px 14px;
+                border-radius: 12px;
+                color: var(--metin);
+                border: 1px solid var(--border);
+                background: rgba(255,255,255,.08);
+                outline: none;
+                transition: box-shadow .15s ease, border-color .15s ease;
+            }
+
+                .input:focus {
+                    border-color: rgba(94,197,255,.55);
+                    box-shadow: 0 0 0 4px rgba(94,197,255,.20)
+                }
+
+            .inline {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .checkbox {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 14px;
+                opacity: .95
+            }
+
+                .checkbox input {
+                    width: 18px;
+                    height: 18px
+                }
+
+            .btn-primary {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                width: 100%;
+                padding: 12px 16px;
+                border-radius: 14px;
+                border: 1px solid rgba(255,255,255,.16);
+                background: var(--grad-cta);
+                color: #fff;
+                font-weight: 700;
+                text-decoration: none;
+                box-shadow: 0 14px 28px rgba(124,77,255,.35);
+                transition: transform .15s ease, box-shadow .2s ease
+            }
+
+                .btn-primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 20px 36px rgba(124,77,255,.42)
+                }
+
+            .alt-actions {
+                display: flex;
+                justify-content: space-between;
+                gap: 12px;
+                margin-top: 10px;
+                flex-wrap: wrap
+            }
+
+            .link {
+                color: #fff;
+                text-decoration: none;
+                border-bottom: 1px dashed rgba(255,255,255,.45)
+            }
+
+                .link:hover {
+                    opacity: .9
+                }
+
+            .divider {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 18px 0 10px;
+                opacity: .8
+            }
+
+                .divider::before, .divider::after {
+                    content: "";
+                    height: 1px;
+                    flex: 1;
+                    background: var(--border);
+                }
+
+            .socials {
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap
+            }
+
+            .sbtn {
+                flex: 1 1 140px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px 12px;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+                background: rgba(255,255,255,.06);
+                color: #fff;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .sbtn i {
+                    min-width: 18px
+                }
+
+            /* Gizli paneller */
+            .panel {
+                display: none;
+            }
+
+                .panel.active {
+                    display: block;
+                }
+
+            /* Mobil ayarlar */
+            @media (max-width:768px) {
+                .auth-hero h1 {
+                    font-size: 32px
+                }
+
+                .side-visual {
+                    padding: 20px
+                }
+
+                .form-pane {
+                    padding: 20px
+                }
+            }
+
+            /* Klavye odağı */
+            a:focus-visible, button:focus-visible, .input:focus-visible {
+                outline: 3px solid rgba(94,197,255,.65);
+                outline-offset: 2px
+            }
+
+
+            /* ========== TOP BAR ========== */
+            .topbar {
+                position: sticky;
+                top: 0;
+                z-index: 4000;
+                background: linear-gradient(90deg,#1e3a8a,#4338ca,#6d28d9,#7c3aed);
+                background-size: 200% 100%;
+                animation: tbshift 14s linear infinite;
+                border-bottom: 1px solid rgba(255,255,255,.08);
+                color: #e8eeff;
+                font-family: 'Poppins',sans-serif;
+            }
+
+            @keyframes tbshift {
+                0% {
+                    background-position: 0 0
+                }
+
+                100% {
+                    background-position: 200% 0
+                }
+            }
+
+            .tb-inner {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 6px 22px;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 12px;
+                align-items: center;
+                font-size: 12.5px
+            }
+
+            .tb-left {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                opacity: .95
+            }
+
+                .tb-left i {
+                    font-size: 12px;
+                    margin-right: 6px;
+                    opacity: .9
+                }
+
+            .tb-right {
+                display: flex;
+                align-items: center;
+                gap: 16px
+            }
+
+                .tb-right a {
+                    color: #f5f7ff;
+                    text-decoration: none;
+                    opacity: .95
+                }
+
+                    .tb-right a:hover {
+                        opacity: 1;
+                        text-decoration: underline
+                    }
+
+            .tb-dot {
+                opacity: .35
+            }
+
+            @media(max-width:900px) {
+                .tb-left {
+                    display: none
+                }
+
+                .tb-inner {
+                    padding: 6px 16px
+                }
+            }
+
+
+            /* ========== HEADER ========== */
+            .header {
+                position: sticky;
+                top: 36px;
+                z-index: 4500;
+                backdrop-filter: saturate(140%) blur(8px);
+                background: var(--grad-header);
+                border-bottom: 1px solid rgba(255,255,255,.08);
+            }
+
+            .nav {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 10px 18px;
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                gap: 12px;
+                align-items: center;
+                font-family: 'Poppins',sans-serif;
+            }
+
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 700;
+                color: #fff;
+                letter-spacing: .2px;
+                min-width: 0
+            }
+
+            .logo {
+                width: 30px;
+                height: 30px;
+                border-radius: 10px;
+                position: relative;
+                isolation: isolate;
+                background: var(--grad-cta);
+                box-shadow: 0 4px 14px rgba(255,110,199,.25);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 14px;
+                flex: 0 0 auto;
+            }
+
+                .logo::after {
+                    content: "";
+                    position: absolute;
+                    inset: 2px;
+                    border-radius: 8px;
+                    background: linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.02))
+                }
+
+            .brand-name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis; /* dar ekranda taşmasın */
+                font-size: 16px;
+                color: #fff; /* yazı beyaz */
+                text-decoration: none; /* alt çizgi kalksın */
+            }
+
+
+            .menu {
+                display: flex;
+                justify-content: center;
+                gap: 14px
+            }
+
+                .menu a {
+                    color: var(--ink-weak);
+                    text-decoration: none;
+                    font-weight: 500;
+                    padding: 8px 10px;
+                    border-radius: 10px;
+                    transition: .15s ease;
+                }
+
+                    .menu a:hover {
+                        background: rgba(255,255,255,0.06)
+                    }
+
+            .actions {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex: 0 0 auto;
+            }
+
+            .btn {
+                display: inline-flex; /* düzgün ortalansın */
+                align-items: center;
+                justify-content: center;
+                border: none;
+                cursor: pointer;
+                border-radius: 10px;
+                font-weight: 600;
+                padding: 8px 12px;
+                font-size: 13.5px;
+                white-space: nowrap;
+                text-decoration: none; /* alt çizgiyi kaldır */
+            }
+
+                .btn.primary {
+                    background: var(--grad-cta);
+                    color: #0a0f2a;
+                    box-shadow: 0 6px 16px rgba(124,77,255,.28);
+                }
+
+                    /* hover’da da alt çizgi çıkmasın */
+                    .btn.primary:hover {
+                        text-decoration: none;
+                        color: #0a0f2a; /* yine aynı kalsın */
+                    }
+
+
+            /* ========== HAMBURGER ========== */
+            .hamb {
+                display: none;
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                margin-left: 6px;
+                border: 1px solid rgba(255,255,255,.10);
+                background: rgba(255,255,255,.05);
+                position: relative;
+                cursor: pointer;
+                flex: 0 0 auto;
+            }
+
+                .hamb span {
+                    position: absolute;
+                    left: 8px;
+                    right: 8px;
+                    height: 2px;
+                    background: #fff;
+                    border-radius: 2px;
+                    transition: transform .45s ease, opacity .35s ease;
+                }
+
+                    .hamb span:nth-child(1) {
+                        top: 11px
+                    }
+
+                    .hamb span:nth-child(2) {
+                        top: 17px
+                    }
+
+                    .hamb span:nth-child(3) {
+                        top: 23px
+                    }
+
+            body.nav-open .hamb span:nth-child(1) {
+                transform: translateY(6px) rotate(45deg)
+            }
+
+            body.nav-open .hamb span:nth-child(2) {
+                opacity: 0
+            }
+
+            body.nav-open .hamb span:nth-child(3) {
+                transform: translateY(-6px) rotate(-45deg)
+            }
+
+            /* ========== OVERLAY + DRAWER ========== */
+            .overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(10,14,32,.45);
+                backdrop-filter: blur(1.5px);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity .45s ease;
+                z-index: 4400;
+            }
+
+            body.nav-open .overlay {
+                opacity: 1;
+                pointer-events: auto
+            }
+
+            .mobile-drawer {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100dvh;
+                width: min(78vw, 360px);
+                background: rgba(14,18,40,.98);
+                border-left: 1px solid rgba(255,255,255,.06);
+                transform: translateX(100%);
+                transition: transform .45s cubic-bezier(.22,.61,.36,1);
+                z-index: 4600;
+                display: flex;
+                flex-direction: column;
+                box-shadow: -14px 0 40px rgba(0,0,0,.30)
+            }
+
+            body.nav-open .mobile-drawer {
+                transform: translateX(0)
+            }
+
+            .mobile-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px 14px;
+                color: #fff;
+                font-weight: 600;
+                border-bottom: 1px solid rgba(255,255,255,.06)
+            }
+
+            .mobile-menu {
+                display: flex;
+                flex-direction: column;
+                padding: 10px
+            }
+
+                .mobile-menu a {
+                    color: #dfe7ff;
+                    text-decoration: none;
+                    padding: 10px 12px;
+                    border-radius: 10px;
+                    background: rgba(255,255,255,.045);
+                    border: 1px solid rgba(255,255,255,.06);
+                    transform: translateX(10px);
+                    opacity: 0;
+                }
+
+                    .mobile-menu a + a {
+                        margin-top: 8px
+                    }
+
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(10px)
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0)
+                }
+            }
+
+            body.nav-open .mobile-menu a {
+                animation: slideIn .18s ease forwards
+            }
+
+                body.nav-open .mobile-menu a:nth-child(1) {
+                    animation-delay: .05s
+                }
+
+                body.nav-open .mobile-menu a:nth-child(2) {
+                    animation-delay: .10s
+                }
+
+                body.nav-open .mobile-menu a:nth-child(3) {
+                    animation-delay: .15s
+                }
+
+                body.nav-open .mobile-menu a:nth-child(4) {
+                    animation-delay: .20s
+                }
+
+                body.nav-open .mobile-menu a:nth-child(5) {
+                    animation-delay: .25s
+                }
+
+            /* Scroll kilidi */
+            body.nav-open {
+                overflow: hidden
+            }
+
+            /* ========== RESPONSIVE (gizleme yok!) ========== */
+            @media(max-width:1024px) {
+                .nav {
+                    padding: 12px 18px
+                }
+
+                .menu a {
+                    padding: 8px 8px;
+                    font-size: 14px
+                }
+
+                .btn.primary {
+                    font-size: 13px;
+                    padding: 8px 10px
+                }
+
+                .brand-name {
+                    font-size: 15px
+                }
+            }
+            /* Mobil görünüm düzeni */
+            @media (max-width: 900px) {
+                .menu {
+                    display: none;
+                }
+                /* klasik menü gizlenir */
+                .hamb {
+                    display: block;
+                }
+                /* hamburger görünür */
+                .actions {
+                    justify-content: flex-end;
+                    gap: 8px;
+                }
+                /* sağa yasla */
+            }
+
+            @media(max-width:768px) {
+                .logo {
+                    width: 28px;
+                    height: 28px;
+                    font-size: 13px
+                }
+
+                .brand-name {
+                    font-size: 14px
+                }
+
+                .mobile-drawer {
+                    width: min(85vw,340px)
+                }
+            }
+
+            @media(max-width:480px) {
+                .nav {
+                    padding: 8px 12px;
+                    gap: 8px
+                }
+
+                .brand-name {
+                    font-size: 13px;
+                    max-width: 40vw
+                }
+                /* taşıp taşmaması kontrol */
+                .btn.primary {
+                    font-size: 12.5px;
+                    padding: 6px 10px
+                }
+                /* KÜÇÜLT ama gizleme! */
+                .hamb {
+                    width: 32px;
+                    height: 32px
+                }
+
+                .mobile-drawer {
+                    width: 100vw
+                }
+
+                .mobile-menu a {
+                    font-size: 14px;
+                    padding: 10px
+                }
+            }
+
+
+            /* === Floating Contact Widget === */
+            .contact-widget {
+                position: fixed;
+                right: 22px;
+                bottom: 22px;
+                z-index: 9999;
+                display: flex;
+                gap: 12px;
+                padding: 10px 12px;
+                border-radius: 14px;
+                background: rgba(255,255,255,.92);
+                border: 1px solid rgba(0,0,0,.06);
+                box-shadow: 0 18px 40px rgba(12,27,77,.22);
+                backdrop-filter: blur(6px);
+            }
+
+            /* Koyu temaya uyum */
+            @media (prefers-color-scheme: dark) {
+                .contact-widget {
+                    background: rgba(18,22,44,.92);
+                    border-color: rgba(255,255,255,.10);
+                }
+            }
+
+            .cw-btn {
+                position: relative;
+                display: grid;
+                place-items: center;
+                width: 46px;
+                height: 46px;
+                border-radius: 12px;
+                text-decoration: none;
+                transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+                background: #fff;
+                border: 1px solid rgba(0,0,0,.06);
+                box-shadow: 0 8px 20px rgba(0,0,0,.08);
+                color: #1a2a6b;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                .cw-btn {
+                    background: rgba(255,255,255,.06);
+                    border-color: rgba(255,255,255,.12);
+                    color: #dfe7ff;
+                }
+            }
+
+            .cw-btn:hover,
+            .cw-btn:focus-visible {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(0,0,0,.18);
+                outline: none;
+            }
+
+            /* İkon renkleri */
+            .cw-btn i {
+                font-size: 22px;
+                line-height: 1;
+            }
+
+            .cw-btn.whatsapp i {
+                color: #25D366;
+            }
+
+            .cw-btn.phone i {
+                color: #245DCE;
+            }
+
+            .cw-btn.callback i {
+                color: #7c4dff;
+            }
+
+            /* Hover/Focus etiketleri */
+            .cw-btn .label {
+                position: absolute;
+                bottom: calc(100% + 8px);
+                left: 50%;
+                transform: translate(-50%, 6px);
+                background: #111827;
+                color: #fff;
+                font-size: 12px;
+                font-weight: 600;
+                padding: 8px 10px;
+                border-radius: 10px;
+                white-space: nowrap;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity .18s ease, transform .18s ease;
+                box-shadow: 0 10px 20px rgba(0,0,0,.25);
+                border: 1px solid rgba(255,255,255,.12);
+            }
+
+            @media (prefers-color-scheme: dark) {
+                .cw-btn .label {
+                    background: rgba(22,26,56,.96);
+                }
+            }
+
+            .cw-btn .label::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 6px solid transparent;
+                border-top-color: rgba(17,24,39,1);
+            }
+
+            .cw-btn:hover .label,
+            .cw-btn:focus-visible .label {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+
+            /* Mobil boyutlar */
+            @media (max-width: 600px) {
+                .contact-widget {
+                    right: 12px;
+                    bottom: 12px;
+                    gap: 10px;
+                    padding: 8px 10px;
+                }
+
+                .cw-btn {
+                    width: 44px;
+                    height: 44px;
+                }
+            }
+            /* ===== Base ===== */
+            footer {
+                border-top: 1px solid rgba(255,255,255,.08);
+                margin-top: 60px;
+                background: linear-gradient(180deg,#0c1334,#0b1020);
+                color: #dfe7ff;
+                font-family: 'Poppins',sans-serif;
+            }
+
+            .wrap {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 36px 22px 20px
+            }
+
+            a {
+                color: #dfe7ff;
+                text-decoration: none
+            }
+
+                a:hover {
+                    text-decoration: underline
+                }
+
+            /* ===== Desktop layout (>= 900px) ===== */
+            .grid {
+                display: grid;
+                grid-template-columns: 1.4fr repeat(4,1fr);
+                gap: 28px;
+                align-items: start;
+            }
+
+            .brand-inline {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px
+            }
+
+            .logo {
+                width: 36px;
+                height: 36px;
+                border-radius: 12px;
+                background: linear-gradient(90deg,#6a5cff,#a164ff,#ce5bff,#ff6ec7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                box-shadow: 0 6px 18px rgba(255,110,199,.35);
+            }
+
+            .lead {
+                color: #b9c7ff;
+                line-height: 1.7;
+                margin: 0 0 10px
+            }
+
+            .contact {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin: 14px 0 6px
+            }
+
+            .contact-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: #e8eeff;
+                font-size: 14px
+            }
+
+            .pay {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin: 14px 0 6px
+            }
+
+                .pay span {
+                    padding: 6px 10px;
+                    border: 1px solid rgba(255,255,255,.08);
+                    border-radius: 8px;
+                    background: rgba(255,255,255,.06);
+                    font-size: 12px;
+                    display: inline-flex;
+                    gap: 6px;
+                    align-items: center
+                }
+
+            .qrbox {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 14px 0
+            }
+
+            .qr {
+                width: 80px;
+                height: 80px;
+                border-radius: 8px;
+                background: #111a3d;
+                border: 1px solid rgba(255,255,255,.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden
+            }
+
+                .qr img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover
+                }
+
+            .etbis {
+                color: #b9c7ff;
+                font-size: 13.5px
+            }
+
+            .socials {
+                display: flex;
+                gap: 10px;
+                margin-top: 14px;
+                flex-wrap: wrap
+            }
+
+            .soc {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: grid;
+                place-items: center;
+                line-height: 1;
+                background: rgba(255,255,255,.06);
+                border: 1px solid rgba(255,255,255,.10)
+            }
+
+            /* ===== Link section (desktop) ===== */
+            .sec h5 {
+                margin: 0 0 10px;
+                color: #ffb020;
+                font-size: 15px;
+                font-weight: 600;
+                letter-spacing: .2px
+            }
+
+            .sec a {
+                display: block;
+                margin: 8px 0;
+                line-height: 1.6;
+                opacity: .95
+            }
+
+                .sec a:hover {
+                    opacity: 1
+                }
+
+            /* ===== Accordion button (normalize) ===== */
+            .acc-btn {
+                display: none; /* desktop’ta gizli, ≤899px’de görünecek */
+                -webkit-appearance: none;
+                appearance: none;
+                width: 100%;
+                padding: 12px 12px;
+                border-radius: 10px;
+                border: 1px solid rgba(255,255,255,.08);
+                background: rgba(255,255,255,.05);
+                color: #fff;
+                font-weight: 600;
+                font-size: 14px;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+            }
+
+                .acc-btn i {
+                    transition: transform .25s ease
+                }
+
+            .acc-panel {
+                display: block
+            }
+            /* desktop’ta normal akış */
+
+            .credits {
+                text-align: center;
+                color: #a9b8ff;
+                padding: 14px 22px 28px;
+                font-size: 13px;
+                opacity: .85
+            }
+
+            /* ===== Tablet (≤899px): 2 kolon, akordeon butonları görünür, paneller AÇIK ===== */
+            @media (max-width:899px) {
+                .grid {
+                    grid-template-columns: 1fr 1fr;
+                    gap: 20px
+                }
+
+                .brand-inline {
+                    justify-content: flex-start
+                }
+
+                .lead, .contact, .pay, .qrbox, .socials {
+                    text-align: left;
+                    justify-content: flex-start
+                }
+
+                .qrbox {
+                    flex-direction: row
+                }
+
+                .acc-btn {
+                    display: flex
+                }
+
+                .sec h5 {
+                    display: none
+                }
+                /* başlık yerine buton */
+                .acc-panel {
+                    overflow: hidden;
+                    transition: max-height .28s ease, opacity .25s ease, padding .2s ease;
+                    max-height: none;
+                    opacity: 1;
+                    padding: 6px 2px 0 2px; /* AÇIK */
+                }
+
+                .acc-list a {
+                    padding: 10px 12px;
+                    margin: 6px 0;
+                    border-radius: 10px;
+                    border: 1px solid rgba(255,255,255,.06);
+                    background: rgba(255,255,255,.045);
+                }
+            }
+
+            /* ===== Telefon (≤599px): tek kolon, akordeon AÇIK BAŞLAR, sol hizalı ===== */
+            @media (max-width:599px) {
+                .wrap {
+                    padding: 28px 16px 16px
+                }
+
+                .grid {
+                    grid-template-columns: 1fr;
+                    gap: 16px
+                }
+
+                .brand-inline {
+                    justify-content: flex-start
+                }
+
+                .lead, .contact, .pay, .qrbox, .socials {
+                    text-align: left;
+                    justify-content: flex-start
+                }
+
+                .qrbox {
+                    flex-direction: row;
+                    align-items: flex-start
+                }
+
+                .acc-btn {
+                    display: flex;
+                    justify-content: space-between
+                }
+
+                .sec h5 {
+                    display: none
+                }
+
+                .acc-panel {
+                    max-height: none !important;
+                    opacity: 1 !important;
+                    padding: 6px 2px 0 2px !important; /* AÇIK */
+                }
+
+                .acc-list a {
+                    font-size: 14px;
+                    text-align: left
+                }
+            }
+
+            /* Çok küçük telefonlar */
+            @media (max-width:380px) {
+                .soc {
+                    width: 38px;
+                    height: 38px;
+                    font-size: 15px
+                }
+
+                .qr {
+                    width: 72px;
+                    height: 72px
+                }
+            }
+        </style>
+    </head>
+    <body>
+
+
+
+
+
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <div class="tb-inner">
+                <div class="tb-left">
+                    <span><i class="fa-solid fa-bolt"></i> Neon pastel & hızlı altyapı</span>
+                    <span><i class="fa-solid fa-shield-heart"></i> Güvenli & mobil uyumlu</span>
+                </div>
+                <div class="tb-right">
+                    <a href="sss.html"><i class="fa-regular fa-circle-question"></i> Sıkça Sorulanlar</a>
+                    <span class="tb-dot">•</span>
+                    <a href="yardim.html">Yardım</a>
+                    <span class="tb-dot">•</span>
+                    <a href="iletisim.html"><i class="fa-regular fa-envelope"></i> İletişim</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="nav">
+                <div class="brand">
+                    <div class="logo">HS</div>
+                    <a href="index.html" class="brand-name">Helin Studio</a> <!-- HİÇBİR EKRANDA GİZLENMEZ -->
+
+                </div>
+
+                <nav class="menu" aria-label="Ana menü">
+                    <a href="index.html">AnaSayfa</a>
+                    <a href="demositeler.html">Hazır Web Siteleri</a>
+                    <a href="ozellikler.html">Özellikler</a>
+                    <a href="fiyatlar.html">Paketler/Fiyatlar</a>
+                    <a href="referanslar.html">Referanslar</a>
+                </nav>
+
+                <div class="actions">
+                    <a class="btn primary" href="müsterigirisi.html">Müşteri Girişi</a> <!-- HİÇBİR EKRANDA GİZLENMEZ -->
+                    <button id="hamb" class="hamb" aria-label="Menüyü Aç/Kapat" aria-controls="drawer" aria-expanded="false">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- OVERLAY -->
+        <div id="overlay" class="overlay" hidden></div>
+
+        <!-- MOBILE DRAWER -->
+        <aside class="mobile-drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Mobil menü">
+            <div class="mobile-head">
+                <span>Menü</span>
+                <button id="closeDrawer" class="btn" style="padding:6px 10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff">
+                    Kapat
+                </button>
+            </div>
+            <nav class="mobile-menu" id="mobileMenuLinks">
+                <a href="index.html">AnaSayfa</a>
+                <a href="demositeler.html">Hazır Web Siteleri</a>
+                <a href="ozellikler.html">Özellikler</a>
+                <a href="fiyatlar.html">Paketler/Fiyatlar</a>
+                <a href="referanslar.html">Referanslar</a>
+            </nav>
+        </aside>
+
+        <form id="form1" runat="server">
+            <section class="auth-hero">
+                <div class="container">
+                    <h1>Müşteri Girişi</h1>
+                    <p>Hesabına giriş yap veya bir dakikada kayıt ol.</p>
+                </div>
+            </section>
+
+            <section class="container">
+                <div class="auth-wrap">
+                    <!-- SOL: Tanıtım / Görsel -->
+                    <aside class="card side-visual v2" aria-label="Bilgi Paneli">
+                        <!-- Üst rozet -->
+                        <span class="tag">
+                            <i class="fa-solid fa-sparkles"></i> Helin Stdio Ayrıcalıkları  ile tanış!
+                        </span>
+
+                        <!-- Başlık + metin -->
+                        <div class="sv-head">
+                            <h2>Tek Hesap, Tüm Hizmetler</h2>
+                            <p>Satın aldığın şablonları yönet, lisans ve faturaları gör, destek taleplerini tek yerden takip et.</p>
+                        </div>
+
+                        <!-- Mini özellik listesi -->
+                        <ul class="sv-list">
+                            <li><i class="fa-solid fa-check"></i> Tek seferde hızlı giriş</li>
+                            <li><i class="fa-solid fa-check"></i> Lisans & fatura arşivi</li>
+                            <li><i class="fa-solid fa-check"></i> Öncelikli teknik destek</li>
+                        </ul>
+
+                        <!-- Görsel alan (animasyonlu arka plan + dekor) -->
+                        <div class="illus" aria-hidden="true">
+                            <div class="blob blob-a"></div>
+                            <div class="blob blob-b"></div>
+                            <div class="grid-overlay"></div>
+                        </div>
+
+                        <!-- Alt güven satırı -->
+                        <div class="sv-safe">
+                            <span class="chip"><i class="fa-solid fa-shield-heart"></i> KVKK Uyumlu</span>
+                            <span class="chip"><i class="fa-solid fa-rotate-left"></i> 7 Gün İade</span>
+                            <span class="chip"><i class="fa-solid fa-lock"></i> SSL Güvenli</span>
+                        </div>
+                    </aside>
+
+
+                    <!-- SAĞ: Form Kartı -->
+                    <section class="card form-pane" aria-label="Giriş ve Kayıt">
+                        <!-- Sekmeler -->
+                        <div class="tabs" role="tablist" aria-label="Giriş veya Kayıt">
+                            <button id="tab-login" class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="panel-login">
+                                <i class="fa-solid fa-right-to-bracket"></i> Giriş Yap
+                            </button>
+                            <button id="tab-register" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="panel-register">
+                                <i class="fa-solid fa-user-plus"></i> Kayıt Ol
+                            </button>
+                        </div>
+
+                        <!-- GİRİŞ PANELİ -->
+                        <div id="panel-login" class="panel active" role="tabpanel" aria-labelledby="tab-login">
+                            <h3 class="form-title">Hesabına Giriş Yap</h3>
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="label" for="<%= txtLoginEmail.ClientID %>"><i class="fa-solid fa-envelope"></i> E-posta</label>
+                                    <asp:TextBox ID="txtLoginEmail" runat="server" CssClass="input" TextMode="Email" placeholder="ornek@eposta.com"></asp:TextBox>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="<%= txtLoginPassword.ClientID %>"><i class="fa-solid fa-lock"></i> Şifre</label>
+                                    <div style="position:relative">
+                                        <asp:TextBox ID="txtLoginPassword" runat="server" CssClass="input" TextMode="Password" placeholder="••••••••"></asp:TextBox>
+                                        <button type="button" class="link" onclick="togglePwd('<%= txtLoginPassword.ClientID %>')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); border:0; background:transparent;"><i class="fa-regular fa-eye"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="inline">
+                                    <label class="checkbox">
+                                        <asp:CheckBox ID="chkRemember" runat="server" /> Beni hatırla
+                                    </label>
+                                    <a class="link" href="ForgotPassword.aspx"><i class="fa-regular fa-circle-question"></i> Şifremi unuttum</a>
+                                </div>
+
+                                <asp:Button ID="btnLogin" runat="server" Text="Giriş Yap" CssClass="btn-primary" />
+
+                                <div class="divider"><span>veya</span></div>
+                                <div class="socials">
+                                    <a class="sbtn" href="#"><i class="fa-brands fa-google"></i> Google ile devam et</a>
+                                    <a class="sbtn" href="#"><i class="fa-brands fa-apple"></i> Apple ile devam et</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- KAYIT PANELİ -->
+                        <div id="panel-register" class="panel" role="tabpanel" aria-labelledby="tab-register" aria-hidden="true">
+                            <h3 class="form-title">Yeni Hesap Oluştur</h3>
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="label" for="<%= txtRegName.ClientID %>"><i class="fa-solid fa-user"></i> Ad Soyad</label>
+                                    <asp:TextBox ID="txtRegName" runat="server" CssClass="input" placeholder="Adınız Soyadınız"></asp:TextBox>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="<%= txtRegEmail.ClientID %>"><i class="fa-solid fa-envelope"></i> E-posta</label>
+                                    <asp:TextBox ID="txtRegEmail" runat="server" CssClass="input" TextMode="Email" placeholder="ornek@eposta.com"></asp:TextBox>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="<%= txtRegPhone.ClientID %>"><i class="fa-solid fa-phone"></i> Telefon (opsiyonel)</label>
+                                    <asp:TextBox ID="txtRegPhone" runat="server" CssClass="input" placeholder="+90 5xx xxx xx xx"></asp:TextBox>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="<%= txtRegPassword.ClientID %>"><i class="fa-solid fa-lock"></i> Şifre</label>
+                                    <div style="position:relative">
+                                        <asp:TextBox ID="txtRegPassword" runat="server" CssClass="input" TextMode="Password" placeholder="En az 8 karakter"></asp:TextBox>
+                                        <button type="button" class="link" onclick="togglePwd('<%= txtRegPassword.ClientID %>')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); border:0; background:transparent;"><i class="fa-regular fa-eye"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="<%= txtRegPassword2.ClientID %>"><i class="fa-solid fa-lock-keyhole"></i> Şifre (Tekrar)</label>
+                                    <div style="position:relative">
+                                        <asp:TextBox ID="txtRegPassword2" runat="server" CssClass="input" TextMode="Password" placeholder="Şifreni tekrar gir"></asp:TextBox>
+                                        <button type="button" class="link" onclick="togglePwd('<%= txtRegPassword2.ClientID %>')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); border:0; background:transparent;"><i class="fa-regular fa-eye"></i></button>
+                                    </div>
+                                </div>
+
+                                <asp:Button ID="btnRegister" runat="server" Text="Kayıt Ol" CssClass="btn-primary" />
+
+                                <div class="divider"><span>veya</span></div>
+                                <div class="socials">
+                                    <a class="sbtn" href="#"><i class="fa-brands fa-google"></i> Google ile devam et</a>
+                                    <a class="sbtn" href="#"><i class="fa-brands fa-apple"></i> Apple ile devam et</a>
+                                </div>
+
+                                <div class="alt-actions" style="margin-top:6px">
+                                    <span class="label" style="opacity:.9">Zaten üye misin?</span>
+                                    <a class="link" href="#" onclick="switchTab('login');return false;"><i class="fa-solid fa-right-to-bracket"></i> Giriş yap</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </form>
+
+        <div class="contact-widget" role="navigation" aria-label="Hızlı iletişim">
+            <!-- Telefon -->
+            <a runat="server" id="lnkPhone" class="cw-btn phone" target="_self" aria-label="Bizi arayın">
+                <i class="fa-solid fa-phone"></i>
+                <span class="label">Bizi Arayın</span>
+            </a>
+
+            <!-- WhatsApp -->
+            <a runat="server" id="lnkWhatsapp" class="cw-btn whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp İletişim">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span class="label">WhatsApp İletişim</span>
+            </a>
+
+            <!-- Sizi Arayalım -->
+            <a runat="server" id="lnkCallback" class="cw-btn callback" target="_self" aria-label="Sizi arayalım">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <span class="label">Sizi Arayalım</span>
+            </a>
+        </div>
+
+
+        <footer>
+            <div class="wrap">
+                <div class="grid">
+                    <!-- Sol geniş blok -->
+                    <section>
+                        <div class="brand-inline">
+                            <div class="logo">HS</div>
+                            <strong style="color:#fff">Helin Studio</strong>
+                        </div>
+                        <p class="lead">Neon pastel paletle modern, erişilebilir ve hızlı web deneyimleri tasarlıyorum. Kurumsal web, e-ticaret ve özelleştirilmiş yönetim panelleri.</p>
+
+                        <div class="contact">
+                            <div class="contact-item"><i class="fa-solid fa-phone"></i> <a href="tel:02124031922">0212 403 1922</a></div>
+                            <div class="contact-item"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@helinstudio.com">info@helinstudio.com</a></div>
+                        </div>
+
+                        <div class="pay">
+                            <span><i class="fa-brands fa-cc-visa"></i> Visa</span>
+                            <span><i class="fa-brands fa-cc-mastercard"></i> MasterCard</span>
+                            <span><i class="fa-regular fa-credit-card"></i> Havale/FAST</span>
+                        </div>
+
+                        <div class="qrbox">
+                            <div class="qr"><img src="/resim/etbis-qr.png" alt="ETBİS QR" onerror="this.parentNode.textContent='QR'"></div>
+                            <div class="etbis">Helin Studio, T.C. Ticaret Bakanlığı ETBİS’e kayıtlı olarak hizmet verir.</div>
+                        </div>
+
+                        <div class="socials">
+                            <a class="soc" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a class="soc" href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a class="soc" href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a class="soc" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a class="soc" href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        </div>
+                    </section>
+
+                    <!-- Link sütunları (akordeonlu) -->
+                    <section class="sec">
+                        <button class="acc-btn" aria-expanded="true">
+                            <span>Kurumsal</span><i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <h5>Kurumsal</h5>
+                        <div class="acc-panel">
+                            <div class="acc-list">
+                                <a href="#">Neden Helin Studio?</a>
+                                <a href="#">Hakkımızda</a>
+                                <a href="#">Web Site Bayiliği</a>
+                                <a href="#">Güvenli Alışveriş</a>
+                                <a href="#">7 Gün İade Garantisi</a>
+                                <a href="iletisim.aspx">İletişim</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="sec">
+                        <button class="acc-btn" aria-expanded="true">
+                            <span>Sözleşmeler</span><i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <h5>Sözleşmeler</h5>
+                        <div class="acc-panel">
+                            <div class="acc-list">
+                                <a href="#">Satış Sözleşmesi</a>
+                                <a href="#">Teslimat &amp; İade</a>
+                                <a href="#">KVKK</a>
+                                <a href="#">Çerez Politikası</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="sec">
+                        <button class="acc-btn" aria-expanded="true">
+                            <span>Blog</span><i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <h5>Blog</h5>
+                        <div class="acc-panel">
+                            <div class="acc-list">
+                                <a href="#">Blog</a>
+                                <a href="#">Duyuru</a>
+                                <a href="#">SEO Yazıları</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="sec">
+                        <button class="acc-btn" aria-expanded="true">
+                            <span>Sayfalar</span><i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <h5>Sayfalar</h5>
+                        <div class="acc-panel">
+                            <div class="acc-list">
+                                <a href="#">Bulut E-Ticaret</a>
+                                <a href="#">Bağış Modülü</a>
+                                <a href="#">SEO</a>
+                                <a href="#">Alan Adı Belgeleri</a>
+                                <a href="#">Konsept Tasarım</a>
+                                <a href="#">Web Site Kurulumu</a>
+                                <a href="#">Web Site Özellikleri</a>
+                                <a href="#">Referanslar</a>
+                                <a href="#">Şikayet</a>
+                                <a href="sss.aspx">Sıkça Sorulanlar</a>
+                                <a href="#">DNS Adreslerimiz</a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="credits">© 2025 Helin Studio — Tüm hakları saklıdır.</div>
+        </footer>
+
+        <script>
+            (function () {
+                const tabLogin = document.getElementById('tab-login');
+                const tabRegister = document.getElementById('tab-register');
+                const panelLogin = document.getElementById('panel-login');
+                const panelRegister = document.getElementById('panel-register');
+
+                window.switchTab = function (which) {
+                    const toLogin = which === 'login';
+                    tabLogin.classList.toggle('active', toLogin);
+                    tabRegister.classList.toggle('active', !toLogin);
+                    tabLogin.setAttribute('aria-selected', toLogin);
+                    tabRegister.setAttribute('aria-selected', !toLogin);
+
+                    panelLogin.classList.toggle('active', toLogin);
+                    panelRegister.classList.toggle('active', !toLogin);
+                    panelRegister.setAttribute('aria-hidden', toLogin ? 'true' : 'false');
+                    panelLogin.setAttribute('aria-hidden', toLogin ? 'false' : 'true');
+                };
+
+                tabLogin.addEventListener('click', () => switchTab('login'));
+                tabRegister.addEventListener('click', () => switchTab('register'));
+
+                // URL ile ?tab=register gelirse otomatik kayıt sekmesine geç
+                try {
+                    const url = new URL(window.location.href);
+                    if ((url.searchParams.get('tab') || '').toLowerCase() === 'register') { switchTab('register'); }
+                } catch (e) { }
+            })();
+
+            // Şifre göz butonu
+            function togglePwd(id) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.type = el.type === 'password' ? 'text' : 'password';
+            }
+        </script>
+
+        <script>
+            (function () {
+                const body = document.body;
+                const hamb = document.getElementById('hamb');
+                const overlay = document.getElementById('overlay');
+                const close = document.getElementById('closeDrawer');
+                const links = document.getElementById('mobileMenuLinks');
+
+                function openNav() {
+                    body.classList.add('nav-open');
+                    hamb.setAttribute('aria-expanded', 'true');
+                    overlay.hidden = false;
+                    const first = links.querySelector('a'); first && first.focus({ preventScroll: true });
+                }
+                function closeNav() {
+                    body.classList.remove('nav-open');
+                    hamb.setAttribute('aria-expanded', 'false');
+                    setTimeout(() => { overlay.hidden = true; }, 450); // CSS süresiyle uyumlu
+                    hamb.focus && hamb.focus({ preventScroll: true });
+                }
+
+                hamb && hamb.addEventListener('click', () => body.classList.contains('nav-open') ? closeNav() : openNav());
+                overlay && overlay.addEventListener('click', closeNav);
+                close && close.addEventListener('click', closeNav);
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && body.classList.contains('nav-open')) closeNav(); });
+                links && links.addEventListener('click', (e) => { if (e.target.tagName === 'A') closeNav(); });
+            })();
+        </script>
+
+
+
+        <script>
+            /* Akordeon: Telefonlarda (≤599px) açık başlar; butonla aç/kapa çalışır */
+            (function () {
+                const sections = document.querySelectorAll('.sec');
+
+                function setForWidth() {
+                    const isPhone = window.matchMedia('(max-width: 599px)').matches;
+                    sections.forEach(sec => {
+                        const btn = sec.querySelector('.acc-btn');
+                        const panel = sec.querySelector('.acc-panel');
+                        if (!btn || !panel) return;
+
+                        if (isPhone) {
+                            // Telefon: açık başlat
+                            btn.setAttribute('aria-expanded', 'true');
+                            panel.style.maxHeight = 'none';
+                            panel.style.opacity = '1';
+                            panel.style.padding = '6px 2px 0 2px';
+                        } else {
+                            // Tablet & desktop: her zaman açık (CSS de zaten açık)
+                            btn.setAttribute('aria-expanded', 'true');
+                            panel.style.maxHeight = 'none';
+                            panel.style.opacity = '1';
+                            panel.style.padding = '6px 2px 0 2px';
+                        }
+                    });
+                }
+
+                function toggle(e) {
+                    const btn = e.currentTarget;
+                    const panel = btn.parentElement.querySelector('.acc-panel');
+                    const isPhone = window.matchMedia('(max-width: 599px)').matches;
+                    if (!isPhone) return; // tablet/desktop'ta daima açık kalsın
+
+                    const expanded = btn.getAttribute('aria-expanded') === 'true';
+                    if (expanded) {
+                        btn.setAttribute('aria-expanded', 'false');
+                        panel.style.maxHeight = '0px';
+                        panel.style.opacity = '0';
+                        panel.style.padding = '0';
+                        btn.querySelector('i')?.style.setProperty('transform', 'rotate(0deg)');
+                    } else {
+                        btn.setAttribute('aria-expanded', 'true');
+                        panel.style.padding = '6px 2px 0 2px';
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
+                        panel.style.opacity = '1';
+                        btn.querySelector('i')?.style.setProperty('transform', 'rotate(180deg)');
+                    }
+                }
+
+                sections.forEach(sec => {
+                    const btn = sec.querySelector('.acc-btn');
+                    if (btn) btn.addEventListener('click', toggle);
+                });
+
+                setForWidth();
+                window.addEventListener('resize', setForWidth);
+            })();
+        </script>
+
+
+    </body>
+    </html>
