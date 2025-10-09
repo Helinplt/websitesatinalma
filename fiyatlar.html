@@ -1490,6 +1490,78 @@
      opacity: 0.9;
  }
 
+
+            
+            .hero {
+                background: radial-gradient(1200px 800px at 10% -10%, rgba(124,77,255,.35), transparent 60%), radial-gradient(800px 600px at 90% 0%, rgba(255,110,199,.30), transparent 60%), radial-gradient(900px 700px at 50% 120%, rgba(94,197,255,.30), transparent 60%), linear-gradient(180deg, #0a0f2a 0%, #0c1334 60%, #101944 100%);
+                padding: 28px 0 20px;
+                box-shadow: inset 0 -1px 0 rgba(255,255,255,.06);
+                position: relative;
+                z-index: 1;
+                margin-bottom: 20px !important;
+            }
+
+
+            .hero-inner {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 24px;
+                text-align: left;
+            }
+
+            /* === Breadcrumb === */
+            .breadcrumb {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 8px;
+                font-size: 14px;
+                color: #a6b8ff;
+                opacity: 0.95;
+                margin-bottom: 16px;
+            }
+
+                .breadcrumb a {
+                    color: #d8e2ff;
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+
+                    .breadcrumb a:hover {
+                        color: var(--mavi);
+                        text-decoration: none;
+                    }
+
+                .breadcrumb i {
+                    font-size: 10px;
+                    opacity: 0.7;
+                }
+
+            /* === Başlık ve Açıklama === */
+            .hero-title {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #ffffff;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 0 0 8px;
+                letter-spacing: 0.3px;
+            }
+
+                .hero-title i {
+                    font-size: 1.5rem;
+                    color: var(--mavi);
+                    filter: drop-shadow(0 0 6px rgba(94,197,255,0.3));
+                }
+
+            .hero .desc {
+                font-size: 1rem;
+                color: #c7d2ff;
+                max-width: 700px;
+                line-height: 1.6;
+                opacity: 0.9;
+            }
         </style>
 
 
@@ -1564,7 +1636,22 @@
             </nav>
         </aside>
 
+   <section class="hero">
+       <div class="hero-inner">
+           <div class="breadcrumb">
+               <a href="index.html">Ana Sayfa</a>
+               <i class="fa-solid fa-chevron-right"></i>
+               Fiyatlar
+           </div>
 
+           <h1 class="hero-title">
+               <i class="fa-solid fa-layer-group"></i>
+               Web Sitesi Fiyatları
+           </h1>
+
+           <p class="desc">Profesyonel web sayfalarımızın fiyatlarını aşağıda inceleyebilirsiniz. Her paket, ihtiyaçlarınıza göre özelleştirilebilir.</p>
+       </div>
+   </section>    
 
         <section class="hero">
             <div class="hero-inner">
@@ -1881,4 +1968,5 @@
 
     </body>
 </html>
+
 
