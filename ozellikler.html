@@ -1113,6 +1113,53 @@
                 height: 72px
             }
         }
+
+         .hero {
+     background: var(--grad-hero);
+     padding: 28px 0 20px;
+     box-shadow: inset 0 -1px 0 rgba(255,255,255,.06);
+ }
+
+ .hero-inner {
+     max-width: 1300px;
+     margin: 0 auto;
+     text-align: left;
+ }
+
+ .breadcrumb {
+     font-size: 0.9rem;
+     color: #9fb3ff;
+     margin-bottom: 12px;
+ }
+
+     .breadcrumb a {
+         color: #9fb3ff;
+         text-decoration: none;
+     }
+
+         .breadcrumb a:hover {
+             text-decoration: underline;
+         }
+
+ .hero-title {
+     font-size: 2rem;
+     font-weight: 700;
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     color: #fff;
+ }
+
+     .hero-title i {
+         color: var(--mavi);
+         font-size: 1.6rem;
+     }
+
+ .hero p.desc {
+     font-size: 0.95rem;
+     color: #b9c3f3;
+     margin-top: 6px;
+ }
     </style>
 </head>
 <body>
@@ -1184,7 +1231,15 @@
             <a href="referanslar.html">Referanslar</a>
         </nav>
     </aside>
-
+<section class="hero">
+    <div class="hero-inner">
+        <div class="breadcrumb">
+            <a href="index.html">Ana Sayfa</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;opacity:.7;margin:0 6px;"></i> Özellikler
+        </div>
+        <h1 class="hero-title"><i class="fa-solid fa-layer-group"></i> Özellikler</h1>
+        <p class="desc">Web sayfalarımızın bazı özellikleri.</p>
+    </div>
+</section>
     <form id="form1" runat="server">
         <div>
             <section class="features">
@@ -1714,4 +1769,5 @@
     </script>
 
 </body>
+
 </html>
